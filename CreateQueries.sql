@@ -33,14 +33,14 @@ CREATE TABLE Courses(
 CREATE TABLE Enrolled(
     u_id int NOT NULL,
     courseCode varchar(50) NOT NULL,
-    FOREIGN KEY (u_id) REFERENCES Students (u_id),
+    FOREIGN KEY (u_id) REFERENCES Students (stud_id),
     FOREIGN KEY (courseCode) REFERENCES Courses (courseCode),
-    CONSTRAINT PK_Members PRIMARY KEY (u_id,courseCode));
+    PRIMARY KEY(u_id,courseCode));
 
 CREATE TABLE Course_Maintainers(
     lect_id int NOT NULL,
     courseCode varchar(50) NOT NULL,
-    FOREIGN KEY (lect_id) REFERENCES Lecturers (u_id),
+    FOREIGN KEY (lect_id) REFERENCES Lecturers (lect_id),
     FOREIGN KEY (courseCode) REFERENCES Courses (courseCode),
     CONSTRAINT PK_Members PRIMARY KEY (lect_id,courseCode));
 
@@ -97,7 +97,7 @@ CREATE TABLE CalendarEvents(
 
 CREATE TABLE AssignmentEvents(
     event_id int PRIMARY KEY,
-    assignment_id varchar(255),
+    assignment_id int,
     FOREIGN KEY (event_id) REFERENCES CalendarEvents (event_id),
     FOREIGN KEY (assignment_id) REFERENCES Assignments (assignment_id));
 

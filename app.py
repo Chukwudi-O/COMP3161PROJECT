@@ -1,6 +1,7 @@
-from flask import Flask,make_response,request
+from flask import Flask,make_response,request,session
 import DBManager as dbm
 
+session['userType'] = 'VISITOR'
 app = Flask(__name__)
 
 @app.route('/')
@@ -46,7 +47,21 @@ def getUsers():
     db.close()
     return make_response(users,200)
 
+@app.route('/Forums/<course>',methods=['GET'])
+def getForums(course):
+    forums = dbm.get_forums(course)
+    return make_response(forums)
+
+@app.route('/CourseMembers/<course>',methods=['GET'])
+def getCourseMembers(courseCode):
+    members = dbm.get_members(courseCode)
+    
+    if members is None:
+        return make_response("That course does not exist",404)
+    
+    return make_response(members,200)
+
 if __name__ == "__main__": 
-    #app.run()
-    dbm.genCreateSQL()
-    dbm.genInsertSQL()
+    app.run()
+    #dbm.genCreateSQL()
+    #dbm.genInsertSQL()
